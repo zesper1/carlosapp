@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles.css">
+    <style>
+        /* Optional: You can customize the card appearance */
+        .stats-card {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar p-3 bg-light" style="width: 250px;">
+            <h2 class="d-flex align-items-center mb-4">
+                <span class="sidebar-title">Mind Connect</span>
+                <img src="assets/logo.png.png" alt="Mind Connect" class="logo ms-2" style="width: 30px;">
+            </h2>
+            <ul class="list-unstyled">
+                <li><a href="dashboard.html" class="btn btn-link w-100 text-start">Dashboard</a></li>
+                <li><a href="users.html" class="btn btn-link w-100 text-start">Users</a></li>
+                <li><a href="doctors.html" class="btn btn-link w-100 text-start">Psychiatrist</a></li>
+                <li><a href="settings.html" class="btn btn-link w-100 text-start">Settings</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content flex-grow-1 p-4">
+            <h1 class="mb-4">Dashboard</h1>
+
+            <!-- Stats Section -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="card text-white bg-success mb-3 stats-card" id="happy-stat">
+                        <div class="card-body">
+                            <h3 class="card-title">Happy</h3>
+                            <p class="card-text" id="happy-percentage">N/A</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-secondary mb-3 stats-card" id="neutral-stat">
+                        <div class="card-body">
+                            <h3 class="card-title">Neutral</h3>
+                            <p class="card-text" id="neutral-percentage">N/A</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-danger mb-3 stats-card" id="unhappy-stat">
+                        <div class="card-body">
+                            <h3 class="card-title">Unhappy</h3>
+                            <p class="card-text" id="unhappy-percentage">N/A</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feedback Section -->
+            <div class="feedback-section mb-4">
+                <h2>Feedback Checker</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Feedback</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="feedback-list">
+                        <!-- Feedback entries will be dynamically inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script type="module" src="assets/script.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async function() {
+            // Initialize Supabase client
+            const supabaseUrl = 'https://your-supabase-url.supabase.co';
+            const supabaseKey = 'your-supabase-key';
+            const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+            // Check if the user has answered the questions (this can be replaced with actual logic)
+            const userAnswered = localStorage.getItem('userAnswered'); // Example flag from localStorage
+            
+            // If user has completed the survey, update the stats
+            if (userAnswered === "true") {
+                // Update percentages (Replace with actual data from backend or app logic)
+                document.getElementById('happy-percentage').innerText = '45%';
+                document.getElementById('neutral-percentage').innerText = '10%';
+                document.getElementById('unhappy-percentage').innerText = '45%';
+            } else {
+                // Show "N/A" or default text when the user has not completed the survey
+                document.getElementById('happy-percentage').innerText = 'Pending';
+                document.getElementById('neutral-percentage').innerText = 'Pending';
+                document.getElementById('unhappy-percentage').innerText = 'Pending';
+            }
+
+            // Fetch feedback data from Supabase
+            const { data: feedbacks, error } = await supabase
+                .from('feedbacks')
+                .select('*');
+
+            if (error) {
+                console.error('Error fetching feedback data:', error);
+                return;
+            }
+
+            // Insert Feedback into the table
+            const feedbackList = document.getElementById("feedback-list");
+            feedbacks.forEach(item => {
+                const row = document.createElement("tr");
+                row.innerHTML = `<td>${item.user}</td><td>${item.feedback}</td><td>${item.date}</td>`;
+                feedbackList.appendChild(row);
+            });
+        });
+    </script>
+</body>
+</html>

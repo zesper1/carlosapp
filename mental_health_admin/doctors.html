@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctors Monitoring</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+    <div class="d-flex">
+        <div class="sidebar p-3 bg-light" style="width: 250px;">
+            <h2 class="d-flex align-items-center mb-4">
+                <span class="sidebar-title">Mind Connect</span>
+                <img src="assets/logo.png.png" alt="Mind Connect" class="logo ms-2" style="width: 30px;">
+            </h2>
+            <ul class="list-unstyled">
+                <li><a href="dashboard.html" class="btn btn-link w-100 text-start">Dashboard</a></li>
+                <li><a href="users.html" class="btn btn-link w-100 text-start">Users</a></li>
+                <li><a href="doctors.html" class="btn btn-link w-100 text-start">Psychiatrist</a></li>
+                <li><a href="settings.html" class="btn btn-link w-100 text-start">Settings</a></li>
+            </ul>
+        </div>
+
+        <div class="main-content flex-grow-1 p-4">
+            <h1 class="mb-4">Doctors Monitoring</h1>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Doctor Name</th>
+                        <th>Specialty</th>
+                        <th>Email</th>
+                        <th>Cellphone Number</th>
+                    </tr>
+                </thead>
+                <tbody id="doctor-table-body">
+                    <!-- Doctors will be dynamically added here -->
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-end mt-4">
+                <button class="btn btn-primary" style="position: fixed; bottom: 20px; right: 20px;" data-bs-toggle="modal" data-bs-target="#addDoctorModal">Add a Doctor</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Doctor Modal -->
+    <div class="modal fade" id="addDoctorModal" tabindex="-1" aria-labelledby="addDoctorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addDoctorModalLabel">Add New Doctor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addDoctorForm">
+                        <div class="mb-3">
+                            <label for="doctorName" class="form-label">Doctor Name</label>
+                            <input type="text" class="form-control" id="doctorName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="doctorSpecialty" class="form-label">Specialty</label>
+                            <input type="text" class="form-control" id="doctorSpecialty" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="doctorEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="doctorEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="doctorPhone" class="form-label">Cellphone Number</label>
+                            <input type="tel" class="form-control" id="doctorPhone" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Doctor</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+    <!-- Doctors Firebase Script -->
+    <script type="module" src="assets/doctors.js"></script>
+</body>
+</html>
